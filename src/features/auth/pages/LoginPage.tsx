@@ -1,8 +1,8 @@
-import { Button, Paper, Typography } from '@mui/material';
+import { Button, CircularProgress, Paper, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Box } from '@mui/system';
 import React from 'react';
-import { useAppDispatch } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { authActions } from '../authSlice';
 
 const useStyles = makeStyles({
@@ -22,6 +22,7 @@ const useStyles = makeStyles({
 const LoginPage = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+  const isLogging = useAppSelector((state) => state.auth.logging);
 
   const handleLoginClick = () => {
     // TODO: Get username + pwd from login form
@@ -42,7 +43,7 @@ const LoginPage = () => {
 
         <Box mt={4}>
           <Button fullWidth variant="contained" color="primary" onClick={handleLoginClick}>
-            Fake Login
+            {isLogging && <CircularProgress color="secondary" size={20} />} &nbsp; Fake Login
           </Button>
         </Box>
       </Paper>
