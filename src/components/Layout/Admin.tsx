@@ -1,7 +1,10 @@
 import { makeStyles } from '@mui/styles';
 import { Box } from '@mui/system';
 import { Header, Sidebar } from 'components/Common';
+import Dashboard from 'features/dashboard';
+import StudentFeature from 'features/students';
 import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
   sidebar: {
     gridArea: 'sidebar',
+    borderRight: '1px solid #ccc',
   },
 
   main: {
@@ -38,7 +42,16 @@ export const AdminLayout = () => {
       <Box className={classes.sidebar}>
         <Sidebar />
       </Box>
-      <Box className={classes.main}>Main</Box>
+      <Box className={classes.main}>
+        <Switch>
+          <Route path="/admin/dashboard">
+            <Dashboard />
+          </Route>
+          <Route path="/admin/students">
+            <StudentFeature />
+          </Route>
+        </Switch>
+      </Box>
     </Box>
   );
 };
