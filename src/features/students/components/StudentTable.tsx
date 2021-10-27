@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { makeStyles } from '@mui/styles';
 import { Box } from '@mui/system';
-import { Student } from 'models';
+import { City, Student } from 'models';
 import React from 'react';
 import { capitalizeString, getMarkColor } from 'utils';
 
@@ -17,11 +17,19 @@ const useStyles = makeStyles(() => ({
 
 export interface StudentTableProps {
   studentList: Student[];
+  cityMap: {
+    [key: string]: City;
+  };
   onEdit?: (student: Student) => void;
   onRemove?: (student: Student) => void;
 }
 
-export default function StudentTable({ studentList, onEdit, onRemove }: StudentTableProps) {
+export default function StudentTable({
+  studentList,
+  cityMap,
+  onEdit,
+  onRemove,
+}: StudentTableProps) {
   const classes = useStyles();
 
   return (
@@ -48,7 +56,7 @@ export default function StudentTable({ studentList, onEdit, onRemove }: StudentT
                   {student.mark}
                 </Box>
               </TableCell>
-              <TableCell>{student.city}</TableCell>
+              <TableCell>{cityMap[student.city]?.name}</TableCell>
               <TableCell align="right">
                 <Button size="small" color="primary" onClick={() => onEdit?.(student)}>
                   Edit

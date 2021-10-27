@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createSelector } from '@reduxjs/toolkit';
 import { RootState } from 'app/store';
 import { City, ListResponse } from 'models';
 
@@ -34,6 +34,12 @@ export const cityActions = citySlice.actions;
 
 // selectors
 export const selectCityList = (state: RootState) => state.city.list;
+export const selectCityMap = createSelector(selectCityList, (cityList) =>
+  cityList.reduce((map: { [key: string]: City }, city) => {
+    map[city.code] = city;
+    return map;
+  }, {})
+);
 
 // reducer
 const cityReducer = citySlice.reducer;

@@ -2,6 +2,7 @@ import { Button, LinearProgress, Pagination, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Box } from '@mui/system';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { selectCityMap } from 'features/city/citySlice';
 import React, { useEffect } from 'react';
 import StudentTable from '../components/StudentTable';
 import {
@@ -39,6 +40,7 @@ const ListPage = () => {
   const pagination = useAppSelector(selectStudentPagination);
   const filter = useAppSelector(selectStudentFilter);
   const loading = useAppSelector(selectStudentLoading);
+  const cityMap = useAppSelector(selectCityMap);
   const dispatch = useAppDispatch();
   const classes = useStyles();
 
@@ -66,10 +68,8 @@ const ListPage = () => {
         </Button>
       </Box>
 
-      {/* Student table */}
-      <StudentTable studentList={studentList} />
+      <StudentTable studentList={studentList} cityMap={cityMap} />
 
-      {/* Student pagination */}
       <Box my={2} display="flex" justifyContent="center">
         <Pagination
           color="primary"
