@@ -6,8 +6,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { makeStyles } from '@mui/styles';
+import { Box } from '@mui/system';
 import { Student } from 'models';
 import React from 'react';
+import { capitalizeString, getMarkColor } from 'utils';
 
 const useStyles = makeStyles(() => ({
   table: {},
@@ -40,8 +42,12 @@ export default function StudentTable({ studentList, onEdit, onRemove }: StudentT
             <TableRow key={student.id}>
               <TableCell>{student.id}</TableCell>
               <TableCell>{student.name}</TableCell>
-              <TableCell>{student.gender}</TableCell>
-              <TableCell>{student.mark}</TableCell>
+              <TableCell>{capitalizeString(student.gender)}</TableCell>
+              <TableCell>
+                <Box color={getMarkColor(student.mark)} fontWeight="bold">
+                  {student.mark}
+                </Box>
+              </TableCell>
               <TableCell>{student.city}</TableCell>
               <TableCell align="right">
                 <Button size="small" color="primary" onClick={() => onEdit?.(student)}>
