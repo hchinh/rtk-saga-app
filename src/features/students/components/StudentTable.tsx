@@ -11,9 +11,6 @@ import React from 'react';
 
 const useStyles = makeStyles(() => ({
   table: {},
-  edit: {
-    marginRight: '8px',
-  },
 }));
 
 export interface StudentTableProps {
@@ -48,9 +45,9 @@ export default function StudentTable({ studentList, onEdit, onRemove }: StudentT
               <TableCell>{student.city}</TableCell>
               <TableCell align="right">
                 <Button
-                  className={classes.edit}
                   variant="contained"
                   color="primary"
+                  style={{ marginRight: '8px' }}
                   onClick={() => onEdit?.(student)}
                 >
                   Edit
