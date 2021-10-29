@@ -1,9 +1,10 @@
 import { Button, LinearProgress, Pagination, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Box } from '@mui/system';
+import studentApi from 'api/studentApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { selectCityList, selectCityMap } from 'features/city/citySlice';
-import { ListParams } from 'models';
+import { ListParams, Student } from 'models';
 import React, { useEffect } from 'react';
 import StudentFilters from '../components/StudentFilters';
 import StudentTable from '../components/StudentTable';
@@ -69,6 +70,16 @@ const ListPage = () => {
     dispatch(studentActions.setFilter(newFilter));
   };
 
+  const handleRemoveStudent = async (student: Student) => {
+    try {
+      await studentApi.remove(student.id as string);
+      const newFilter = { ...filter };
+      dispatch(studentActions.setFilter(newFilter));
+    } catch (error) {
+      console.log('Failed to fetch student', error);
+    }
+  };
+
   return (
     <Box className={classes.root}>
       {loading && <LinearProgress className={classes.loading} />}
@@ -89,7 +100,7 @@ const ListPage = () => {
         />
       </Box>
 
-      <StudentTable studentList={studentList} cityMap={cityMap} />
+      <StudentTable studentList={studentList} cityMap={cityMap} onRemove={handleRemoveStudent} />
 
       <Box my={2} display="flex" justifyContent="center">
         <Pagination
