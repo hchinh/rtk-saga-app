@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { selectCityList, selectCityMap } from 'features/city/citySlice';
 import { ListParams, Student } from 'models';
 import React, { useEffect } from 'react';
+import { useRouteMatch, Link, useHistory } from 'react-router-dom';
 import StudentFilters from '../components/StudentFilters';
 import StudentTable from '../components/StudentTable';
 import {
@@ -39,6 +40,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 const ListPage = () => {
+  const match = useRouteMatch();
+  const history = useHistory();
   const studentList = useAppSelector(selectStudentList);
   const pagination = useAppSelector(selectStudentPagination);
   const filter = useAppSelector(selectStudentFilter);
@@ -80,15 +83,22 @@ const ListPage = () => {
     }
   };
 
+  const handleEditStudent = (student: Student) => {
+    history.push(`${match.url}/${student.id}`);
+  };
+
   return (
     <Box className={classes.root}>
       {loading && <LinearProgress className={classes.loading} />}
 
       <Box className={classes.titleContainer}>
         <Typography variant="h4">Students</Typography>
-        <Button variant="contained" color="primary">
-          Add New Student
-        </Button>
+
+        <Link to={`${match.url}/add`} style={{ textDecoration: 'none' }}>
+          <Button variant="contained" color="primary">
+            Add New Student
+          </Button>
+        </Link>
       </Box>
 
       <Box mb={3}>
@@ -100,7 +110,12 @@ const ListPage = () => {
         />
       </Box>
 
-      <StudentTable studentList={studentList} cityMap={cityMap} onRemove={handleRemoveStudent} />
+      <StudentTable
+        studentList={studentList}
+        cityMap={cityMap}
+        onEdit={handleEditStudent}
+        onRemove={handleRemoveStudent}
+      />
 
       <Box my={2} display="flex" justifyContent="center">
         <Pagination
