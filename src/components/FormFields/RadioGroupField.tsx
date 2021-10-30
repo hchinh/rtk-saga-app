@@ -1,16 +1,34 @@
-import { TextField } from '@mui/material';
-import React, { InputHTMLAttributes } from 'react';
+import { FormHelperText } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import React from 'react';
 import { Control, useController } from 'react-hook-form';
 
-export interface RadioGroupProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface RadioOption {
+  label?: string;
+  value: number | string;
+}
+
+export interface RadioGroupFieldProps {
   name: string;
   control: Control<any>;
   label?: string;
+  disabled?: boolean;
+  options: RadioOption[];
 }
 
-export const RadioGroup = ({ name, control, label, ...inputProps }: RadioGroupProps) => {
+export const RadioGroupField = ({
+  name,
+  control,
+  label,
+  disabled,
+  options,
+}: RadioGroupFieldProps) => {
   const {
-    field: { value, onChange, onBlur, ref },
+    field: { value, onChange, onBlur },
     fieldState: { invalid, error },
   } = useController({
     name,
@@ -18,19 +36,21 @@ export const RadioGroup = ({ name, control, label, ...inputProps }: RadioGroupPr
   });
 
   return (
-    <TextField
-      fullWidth
-      size="small"
-      margin="normal"
-      value={value}
-      onChange={onChange}
-      onBlur={onBlur}
-      label={label}
-      variant="outlined"
-      inputRef={ref}
-      error={invalid}
-      helperText={error?.message}
-      inputProps={inputProps}
-    />
+    <FormControl disabled={disabled} margin="normal" component="fieldset" error={invalid}>
+      <FormLabel component="legend">{label}</FormLabel>
+
+      <RadioGroup value={value} name={name} onChange={onChange} onBlur={onBlur}>
+        {options.map((option) => (
+          <FormControlLabel
+            key={option.value}
+            value={option.value}
+            control={<Radio />}
+            label={option.label}
+          />
+        ))}
+      </RadioGroup>
+
+      <FormHelperText>{error?.message}</FormHelperText>
+    </FormControl>
   );
 };

@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import { Box } from '@mui/system';
-import { InputField } from 'components/FormFields';
+import { InputField, RadioGroupField } from 'components/FormFields';
 import { Student } from 'models';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -23,9 +23,17 @@ const StudentForm = ({ initialValues, onSubmit }: StudentFormProps) => {
     <Box maxWidth={400}>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <InputField name="name" label="Full Name" control={control} />
+        <RadioGroupField
+          name="gender"
+          label="Gender"
+          control={control}
+          options={[
+            { label: 'Male', value: 'male' },
+            { label: 'Female', value: 'female' },
+          ]}
+        />
         <InputField name="age" label="Age" control={control} type="number" />
         <InputField name="mark" label="Mark" control={control} type="number" />
-        <InputField name="gender" label="Gender" control={control} />
         <InputField name="city" label="City" control={control} />
 
         <Box mt={3}>
