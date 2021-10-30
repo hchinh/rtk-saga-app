@@ -3,9 +3,9 @@ import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import studentApi from 'api/studentApi';
 import { Student } from 'models';
-import { useHistory } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import StudentForm from '../components/StudentForm';
 
 const AddEditPage = () => {
@@ -42,6 +42,8 @@ const AddEditPage = () => {
     } else {
       await studentApi.add(formValues);
     }
+
+    toast.success('Save student successfully');
 
     history.push('/admin/students');
   };
